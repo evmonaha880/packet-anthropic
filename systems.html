@@ -288,13 +288,13 @@
         <text class="clk-axis" x="476" y="108" text-anchor="middle">18</text>
         <text class="clk-axis" x="632" y="108" text-anchor="end">24</text>
       </svg>
-      <figcaption id="clockcap">A day on the fleet. Fine ticks are the hourly on-site backup; the taller green marks are the database sync, every four hours; the two dots are the heartbeat that confirms every output shipped, morning and night; the open ring at 4:00 is the reaper that closes idle sessions before they pile up. The shaded band is the peak hour &mdash; 6:25 supervisor, 6:40 intelligence brief, 7:30 morning sweep &mdash; which is why the supervisor runs first.</figcaption>
+      <figcaption id="clockcap">A day on the fleet. Fine ticks are the hourly on-site backup; the taller green marks are the database sync, every four hours; the two dots are the heartbeat that confirms every output shipped, morning and night; the open ring at 4:00 is the reaper that closes idle sessions before they pile up. The shaded band is the peak hour, 6:25 supervisor, 6:40 intelligence brief, 7:30 morning sweep, which is why the supervisor runs first.</figcaption>
     </figure>
 
     <details>
       <summary>How the reliability layer works</summary>
       <p>The heartbeat trusts artifacts over exit codes because both failure directions are real: a job can exit 0 and ship nothing, and a job can exit dirty after shipping everything. So the check reads the output itself: did today's note get today's block, is the database fresh, did the backup snapshot advance.</p>
-      <p>Every change to the fleet has to pass a smoke test that runs inside the scheduler's own context, because a job that works in an interactive terminal can still fail under launchd, where permissions differ. Long-running agents sit under an escalating watchdog: a stall detector samples the process before killing it, so every kill leaves a diagnosis behind. The Claude CLI is pinned to a known-good version. When a synthesis step wedges &mdash; which still happens &mdash; a tool-free watchdog catches the stall within four minutes and retries from a clean process, instead of trying to outguess which version is at fault.</p>
+      <p>Every change to the fleet has to pass a smoke test that runs inside the scheduler's own context, because a job that works in an interactive terminal can still fail under launchd, where permissions differ. Long-running agents sit under an escalating watchdog: a stall detector samples the process before killing it, so every kill leaves a diagnosis behind. The Claude CLI is pinned to a known-good version. When a synthesis step wedges, which still happens, a tool-free watchdog catches the stall within four minutes and retries from a clean process, instead of trying to outguess which version is at fault.</p>
       <p>The mini is the only machine that matters. The laptop and phone reach it over a private mesh network, so the same system answers wherever I am.</p>
     </details>
   </section>
@@ -336,7 +336,7 @@
   <section>
     <p class="eyebrow">Memory</p>
     <h2>One database under everything</h2>
-    <p class="figure">Everything the system and I do ends up written down. A plain-text vault of 5,759 notes holds the projects, people, decisions, and daily journal. Under it sits a local database that mirrors the rest of my working life &mdash; a Gmail archive reaching back to 2009, the iMessage history, logged working sessions, and the embeddings that let recall work by meaning rather than keyword. Ask it a vague question and the right note still comes back. The embedding models that power that run on the machine itself; the database never syncs anywhere, and the offsite backup copy is encrypted before it leaves.</p>
+    <p class="figure">Everything the system and I do ends up written down. A plain-text vault of 5,759 notes holds the projects, people, decisions, and daily journal. Under it sits a local database that mirrors the rest of my working life, a Gmail archive reaching back to 2009, the iMessage history, logged working sessions, and the embeddings that let recall work by meaning rather than keyword. Ask it a vague question and the right note still comes back. The embedding models that power that run on the machine itself; the database never syncs anywhere, and the offsite backup copy is encrypted before it leaves.</p>
 
     <figure class="stackfig" aria-labelledby="stackcap">
       <svg viewBox="0 0 640 190" role="img" aria-label="Three layers of recall: a semantic index, computed on local models, indexes both the vault (5,759 notes, the working set) and the lake (mail, messages, and session history, the archive).">
@@ -360,7 +360,7 @@
         <text class="stk-title" x="270" y="130" text-anchor="start">LAKE</text>
         <text class="stk-sub" x="270" y="146" text-anchor="start">mail to 2009 &#183; messages &#183; sessions</text>
       </svg>
-      <figcaption id="stackcap">A question by meaning goes into the index on the left; it reaches across both stores &mdash; the markdown vault and the archive lake &mdash; and returns the note, the message, and the journal entry that touch it. Nothing about the archive leaves the machine to make that happen.</figcaption>
+      <figcaption id="stackcap">A question by meaning goes into the index on the left; it reaches across both stores, the markdown vault and the archive lake, and returns the note, the message, and the journal entry that touch it. Nothing about the archive leaves the machine to make that happen.</figcaption>
     </figure>
 
     <details>
