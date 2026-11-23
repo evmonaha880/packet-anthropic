@@ -17,7 +17,7 @@ for f, pages in (("files/resume.pdf", 2), ("files/cover-letter.pdf", 1)):
               "run by HUD", "hackathon run by", "head of global operations", "—"]
     hits = [b for b in banned if b in t]
     if hits: print(f"FAIL: banned string(s) in {f}:", hits); bad = True
-    if f.endswith("resume.pdf") and "October 2025" not in t: print("FAIL: October 2025 missing from", f); bad = True
+    if f.endswith("resume.pdf") and "October 2025" not in t and "Oct 2025" not in t: print("FAIL: October 2025 missing from", f); bad = True
 if bad: sys.exit(1)
 print("lock guard: PASS")
 PY
